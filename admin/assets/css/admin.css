@@ -1,0 +1,113 @@
+:root {
+  --bg-base: #0B0F19;
+  --bg-surface: #111827;
+  --bg-card: rgba(31, 41, 55, 0.6);
+  --bg-sidebar: #0F1523;
+  --primary: #F59E0B;
+  --primary-hover: #D97706;
+  --primary-gradient: linear-gradient(135deg, #F59E0B, #D97706);
+  --text-main: #F3F4F6;
+  --text-muted: #9CA3AF;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --danger: #EF4444;
+  --success: #10B981;
+  --info: #3B82F6;
+  --font-family: 'Tajawal', sans-serif;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* إجبار الموقع كله يكون دارك مود */
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-base) !important;
+  background-image: radial-gradient(circle at top right, rgba(245, 158, 11, 0.05), transparent 40%),
+                    radial-gradient(circle at bottom left, rgba(59, 130, 246, 0.05), transparent 40%) !important;
+  color: var(--text-main) !important;
+  min-height: 100vh;
+  display: flex;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* Layout */
+.admin-layout { display: flex; width: 100%; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar {
+  width: 280px; background: var(--bg-sidebar);
+  border-left: 1px solid var(--border-color);
+  display: flex; flex-direction: column;
+  position: fixed; top: 0; bottom: 0; right: 0;
+  z-index: 100; transition: var(--transition);
+  box-shadow: -5px 0 25px rgba(0,0,0,0.2);
+}
+
+.side-brand {
+  padding: 25px 20px; display: flex; align-items: center; gap: 15px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.side-brand .mark {
+  width: 45px; height: 45px; background: var(--primary-gradient);
+  border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; color: #000; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+}
+
+.side-brand strong { display: block; font-size: 1.1rem; font-weight: 800; letter-spacing: 0.5px; color: #fff; }
+.side-brand small { color: var(--text-muted); font-size: 0.75rem; }
+
+.sidebar nav { padding: 20px 15px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+.sidebar nav::-webkit-scrollbar { width: 5px; }
+.sidebar nav::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+
+.sidebar nav a {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px; border-radius: 12px;
+  font-size: 0.95rem; font-weight: 700; color: var(--text-muted);
+  transition: var(--transition); border: 1px solid transparent;
+}
+
+/* اللون البرتقالي للرابط النشط */
+.sidebar nav a:hover { background: rgba(255, 255, 255, 0.03); color: var(--text-main); transform: translateX(-5px); }
+.sidebar nav a.active {
+  background: rgba(245, 158, 11, 0.1) !important; 
+  color: var(--primary) !important;
+  border-color: rgba(245, 158, 11, 0.2) !important; 
+  box-shadow: inset 0 0 20px rgba(245, 158, 11, 0.05) !important;
+}
+.sidebar nav a.danger { color: var(--danger) !important; margin-top: 20px; }
+.sidebar nav a.danger:hover { background: rgba(239, 68, 68, 0.1) !important; }
+
+/* التصحيح النهائي لحجم الأيقونات */
+.sidebar nav a svg {
+  width: 22px !important; height: 22px !important;
+  min-width: 22px !important; min-height: 22px !important;
+  flex-shrink: 0 !important; stroke-width: 2;
+}
+
+.side-footer { padding: 20px; border-top: 1px solid var(--border-color); text-align: center; font-size: 0.85rem; color: var(--text-muted); }
+.side-footer b { color: var(--primary); }
+
+/* Main Content */
+.main-content { flex: 1; margin-right: 280px; padding: 40px; width: calc(100% - 280px); transition: var(--transition); background: transparent !important; }
+
+/* Mobile */
+.mobile-menu-btn {
+  display: none; position: fixed; top: 20px; right: 20px; z-index: 200;
+  width: 45px; height: 45px; border-radius: 12px;
+  background: var(--bg-surface); border: 1px solid var(--border-color);
+  color: var(--primary); font-size: 1.5rem; cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: var(--transition);
+}
+.sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); z-index: 90; opacity: 0; pointer-events: none; transition: var(--transition); }
+.sidebar-overlay.show { opacity: 1; pointer-events: auto; }
+
+@media (max-width: 1024px) {
+  .sidebar { transform: translateX(100%); }
+  .sidebar.open { transform: translateX(0); }
+  .main-content { margin-right: 0; width: 100%; padding: 80px 20px 40px; }
+  .mobile-menu-btn { display: flex; align-items: center; justify-content: center; }
+}
